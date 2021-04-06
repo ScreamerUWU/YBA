@@ -85,14 +85,14 @@ local function UpdateLatestVersion()
    return CB
 end
 
+if Check() == ("NU") then
+   Prompt("Version Checker", ("Your a new user so be careful! Version: 0." .. tostring(Current_Version().Value)), 20)
+end
+
 if Check() == (true) then
-   Prompt("Version Checker", ("Your up to date! Version: " .. tostring(Current_Version().Value)), 10)
+   Prompt("Version Checker", ("Your up to date! Version: 0." .. tostring(Current_Version().Value)), 5)
 end
 
 if Check() == (false) then
-   Prompt("Version Checker", ("Version out of date! Do you want to update this to your latest version? ( " .. tostring(Current_Version().Value) .. " )"), 60, "Yes", "No", UpdateLatestVersion())
-end
-
-if Check() == ("NU") then
-   Prompt("Version Checker", ("Your a new user so be careful! Version: " .. tostring(Current_Version().Value)), 10)
+   Prompt("Version Checker", ("Version out of date! Do you want to update this to your latest version? ( 0." .. tostring(Current_Version().Value) .. " )"), 60, "Yes", "No", UpdateLatestVersion())
 end
