@@ -6,6 +6,8 @@ repeat
     wait()
 until game:IsLoaded()
 
+if not game.PlaceId == (2809202155) then return end
+
 repeat
    wait()
 until game:GetService("Players").LocalPlayer
@@ -26,6 +28,27 @@ until not game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):FindF
 
 local IsSafe = false
 
+local function Prompt(Title, Text, Wait, ButtonOne, ButtonTwo, CallBack)
+   if ButtonOne == (nil) or ButtonTwo == (nil) or CallBack == (nil) then
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = Title,
+        Text = Text,
+        Duration = Wait,
+      })
+   end
+    
+   if ButtonOne ~= nil and ButtonTwo ~= nil and CallBack ~= nil then
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = Title,
+        Text = Text,
+        Duration = Wait,
+        Button1 = ButtonOne,
+        Button2 = ButtonTwo,
+        Callback = CallBack
+      })
+   end
+end
+
 local function Current_Version()
    return game:GetService("ReplicatedStorage"):WaitForChild("GameVersion")
 end
@@ -42,13 +65,34 @@ local function Check()
       end
    end
   
-   if not readisfilefile("YB_Version.lua") then
+   if not isfile("YB_Version.lua") then
       writefile("YB_Version.lua", Current_Version().Value)
     
       return "NU"
    end
 end
 
+local function UpdateLatestVersion()
+    
+   local CB = Instance.new("BindableFunction")
+    
+   CB.OnInvoke = function()
+      local Version = Current_Version().Value
+        
+      writefile("YB_Version.lua", Version)
+   end
+   
+   return CB
+end
+
 if Check() == (true) then
-   Prompt("","",15,"")
+   Prompt("Version Checker", ("Your up to date! Version: " .. tostring(Current_Version().Value)), 10)
+end
+
+if Check() == (false) then
+   Prompt("Version Checker", ("Version out of date! Do you want to update this to your latest version? ( " .. tostring(Current_Version().Value) .. " )"), 60, "Yes", "No", UpdateLatestVersion())
+end
+
+if Check() == ("NU") then
+   Prompt("Version Checker", ("Your a new user so be careful! Version: " .. tostring(Current_Version().Value)), 10)
 end
