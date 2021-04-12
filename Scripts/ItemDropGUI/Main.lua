@@ -47,6 +47,12 @@ local function UseArrow()
     elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Mysterious Arrow") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Mysterious Arrow") then
        
         game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(ArrowInfo))
+    elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Mysterious Arrow") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Mysterious Arrow") then
+       game.StarterGui:SetCore("SendNotification", {
+          Title = "Arrow;",
+          Text = "Wasn't Found!",
+          Duration = 3
+       })
     end
     
 end
@@ -69,6 +75,12 @@ local function UseRoka()
     elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Rokakaka") then
        
         game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(RokaInfo))
+    elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Rokakaka") then
+       game.StarterGui:SetCore("SendNotification", {
+          Title = "Rokakaka;",
+          Text = "Wasn't Found!",
+          Duration = 3
+       })
     end
     
 end
@@ -130,13 +142,13 @@ local function StandWarn(StandNAME)
    STAND.Position = UDim2.new(0, 0, 0.207468882, 0)
    STAND.Size = UDim2.new(0, 386, 0, 37)
    STAND.Font = Enum.Font.SourceSans
-   STAND.Text = "Your Current Stand is: (Stand)"
+   STAND.Text = "Your Current Stand is: StandPH"
    STAND.TextColor3 = Color3.fromRGB(186, 186, 186)
    STAND.TextScaled = true
    STAND.TextSize = 14.000
    STAND.TextWrapped = true
-
-   STAND.Text:gsub("(Stand)", StandNAME)
+   
+   STAND.Text = STAND.Text:gsub("StandPH", StandNAME)
 
    KEEP.Name = "KEEP"
    KEEP.Parent = MAIN
@@ -152,6 +164,7 @@ local function StandWarn(StandNAME)
    KEEP.TextWrapped = true
    KEEP.MouseButton1Down:Connect(function(...)
        SF = false
+       WARN:Destroy()
    end)
 
    REROLL.Name = "REROLL"
@@ -168,6 +181,7 @@ local function StandWarn(StandNAME)
    REROLL.TextWrapped = true
    REROLL.MouseButton1Down:Connect(function(...)
        UseRoka()
+       WARN:Destroy()
    end)
 end
 
@@ -399,6 +413,9 @@ game:GetService("Players").PlayerAdded:Connect(
 
 game:GetService("RunService").RenderStepped:Connect(
     function(...) if AA then RollArcade() end end)
+
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(
+    function(Character) wait(.2) Check() end)
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Script;",
