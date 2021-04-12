@@ -328,7 +328,7 @@ UIWINDOWSF:AddLabel({
 
 UIWINDOWSF:AddToggle({
     text = "Stand Farm",
-    callback = function(Bool) SF = Bool Check() end
+    callback = function(Bool) SF = Bool if Bool then Check() end end
 })   
 
 UIWINDOWM:AddToggle({
