@@ -120,7 +120,7 @@ local function StandWarn(StandNAME)
       Duration = 9999,
       Button1 = ("Keep"),
       Button2 = ("Re-Roll"),
-      callback = Bind
+      Callback = Bind
    })
 end
 
