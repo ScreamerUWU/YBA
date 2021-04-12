@@ -207,12 +207,12 @@ end
 
 UIWINDOWM:AddToggle({
     text = "Auto Arcade",
-    callback = function(Bool) AA = true end
+    callback = function(Bool) AA = Bool end
 })
 
 UIWINDOWM:AddToggle({
     text = "Admin AutoKick",
-    callback = function(Bool) IFAJ = true end
+    callback = function(Bool) IFAJ = Bool end
 })
 
 UILIBRARY:Init()
