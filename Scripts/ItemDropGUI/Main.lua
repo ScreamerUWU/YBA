@@ -1,7 +1,8 @@
 local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
 local UILIBRARY = loadstring(UI)()
-local UIWINDOW = UILIBRARY:CreateWindow("Auto Drop")
+local UIWINDOWDA = UILIBRARY:CreateWindow("Auto Drop")
 local UIWINDOWS = UILIBRARY:CreateWindow("Item Sell")
+local UIWINDOWSF = UILIBRARY:CreateWindow("Stand Farm")
 local UIWINDOWM = UILIBRARY:CreateWindow("Misc")
 
 --[[
@@ -27,6 +28,79 @@ local Items = {
     "Gold Coin", "Lucky Arrow", "Left Arm of The Saint's Corpse"
 }
 
+local function UseArrow()
+    
+    local ArrowInfo = {
+     "EndDialogue",
+     {NPC = "Mysterious Arrow", Option = "Option1", Dialogue = "Dialogue2"}
+    }
+    
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Mysterious Arrow") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Mysterious Arrow") then
+    
+        local Arrow = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Mysterious Arrow")
+        
+        Arrow.Parent = game:GetService("Players").LocalPlayer.Character
+        
+        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(ArrowInfo))
+        
+    elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Mysterious Arrow") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Mysterious Arrow") then
+       
+        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(ArrowInfo))
+    end
+    
+end
+
+local function UseRoka()
+    
+    local RokaInfo = {
+     "EndDialogue",
+     {NPC = "Rokakaka", Option = "Option1", Dialogue = "Dialogue2"}
+    }
+    
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Rokakaka") then
+    
+        local Arrow = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka")
+        
+        Arrow.Parent = game:GetService("Players").LocalPlayer.Character
+        
+        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(RokaInfo))
+        
+    elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Rokakaka") then
+       
+        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(RokaInfo))
+    end
+    
+end
+
+local function MakeSkillTable(Name)
+    return {Skill = Name, SkillTreeType = "Character"}
+end
+
+local function SetWorthII()
+   local SkillsToDO = {
+        [1] = "Agility I", 
+        [2] = "Agility II", 
+        [3] = "Agility III", 
+        [4] = "Worthiness I", 
+        [5] = "Worthiness II"
+   }
+    
+   local RemoteFunction = game:GetService("Players").LocalPlayer.Character.RemoteFunction
+    
+   for 1, #SkillsToDO do
+      RemoteFunction:InvokeServer("LearnSkill", MakeSkillTable(SkillsToDO[i]))
+   end
+end
+        
+
+local function Check()
+   if game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value == ("None") then
+      SetWorthII()
+      UseArrow()
+   elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
+   
+   end
+end
 local function AttemptToDrop(Name, Time)
 
     local Amount = 0
@@ -123,7 +197,7 @@ local function RollArcade()
         unpack(ArcadeInfo))
 end
 
-UIWINDOW:AddBox({
+UIWINDOWD:AddBox({
     text = "Drop Amount",
     value = DropAmount,
     callback = function(Amount)
@@ -132,7 +206,7 @@ UIWINDOW:AddBox({
     end
 })
 
-UIWINDOW:AddSlider({
+UIWINDOWD:AddSlider({
     text = "Drop Time",
     min = 1.1,
     max = 3,
@@ -141,7 +215,7 @@ UIWINDOW:AddSlider({
     callback = function(Amount) ItemDropWait = Amount end
 })
 
-UIWINDOW:AddToggle({
+UIWINDOWD:AddToggle({
     text = "Drop Enabled",
     callback = function(Bool)
         DropEnabled = Bool
@@ -154,7 +228,7 @@ for Index, TableValue in pairs(Items) do
     local IsArm = false
 
     if TableValue == ("Rib Cage of The Saint's Corpse") then
-        UIWINDOW:AddButton({
+        UIWINDOWD:AddButton({
             text = "Rib Cage",
             callback = function()
                 AttemptToDrop(TableValue, ItemDropWait)
@@ -162,7 +236,7 @@ for Index, TableValue in pairs(Items) do
         })
         IsRib = true
     elseif TableValue == ("Left Arm Of The Saint's Corpse") then
-        UIWINDOW:AddButton({
+        UIWINDOWD:AddButton({
             text = "Left Arm",
             callback = function()
                 AttemptToDrop(TableValue, ItemDropWait)
@@ -172,7 +246,7 @@ for Index, TableValue in pairs(Items) do
     end
 
     if not IsArm and not IsRib then
-        UIWINDOW:AddButton({
+        UIWINDOWD:AddButton({
             text = TableValue,
             callback = function()
                 AttemptToDrop(TableValue, ItemDropWait)
@@ -216,6 +290,15 @@ for Index, TableValue in pairs(Items) do
         })
     end
 end
+
+UIWINDOWSF:AddLabel({
+    text = "Currently In Development"
+})   
+
+UIWINDOWSF:AddToggle({
+    text = "Stand Farm",
+    callback = function(Bool) SF = Bool Check() end
+})   
 
 UIWINDOWM:AddToggle({
     text = "Auto Arcade",
