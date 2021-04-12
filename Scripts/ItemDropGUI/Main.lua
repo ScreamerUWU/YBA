@@ -106,83 +106,22 @@ local function SetWorthII()
 end
 
 local function StandWarn(StandNAME)
-    
-   local WARN = Instance.new("ScreenGui")
-   local MAIN = Instance.new("Frame")
-   local TITLE = Instance.new("TextLabel")
-   local STAND = Instance.new("TextLabel")
-   local KEEP = Instance.new("TextButton")
-   local REROLL = Instance.new("TextButton")
-
-   WARN.Name = "WARN"
-   WARN.Parent = game.CoreGui
-
-   MAIN.Name = "MAIN"
-   MAIN.Parent = WARN
-   MAIN.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-   MAIN.BorderSizePixel = 0
-   MAIN.Position = UDim2.new(0.327494293, 0, 0.277641267, 0)
-   MAIN.Size = UDim2.new(0, 386, 0, 241)
-
-   TITLE.Name = "TITLE"
-   TITLE.Parent = MAIN
-   TITLE.BackgroundColor3 = Color3.fromRGB(58, 58, 58)
-   TITLE.BorderSizePixel = 0
-   TITLE.Size = UDim2.new(0, 386, 0, 27)
-   TITLE.Text = "STAND CHECK"
-   TITLE.TextColor3 = Color3.fromRGB(255, 255, 255)
-   TITLE.TextScaled = true
-   TITLE.TextSize = 14.000
-   TITLE.TextWrapped = true
-
-   STAND.Name = "STAND"
-   STAND.Parent = MAIN
-   STAND.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-   STAND.BackgroundTransparency = 1.000
-   STAND.Position = UDim2.new(0, 0, 0.207468882, 0)
-   STAND.Size = UDim2.new(0, 386, 0, 37)
-   STAND.Font = Enum.Font.SourceSans
-   STAND.Text = "Your Current Stand is: StandPH"
-   STAND.TextColor3 = Color3.fromRGB(186, 186, 186)
-   STAND.TextScaled = true
-   STAND.TextSize = 14.000
-   STAND.TextWrapped = true
    
-   STAND.Text = STAND.Text:gsub("StandPH", StandNAME)
-
-   KEEP.Name = "KEEP"
-   KEEP.Parent = MAIN
-   KEEP.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-   KEEP.BorderSizePixel = 0
-   KEEP.Position = UDim2.new(0.0310880821, 0, 0.668049812, 0)
-   KEEP.Size = UDim2.new(0, 162, 0, 39)
-   KEEP.Font = Enum.Font.Roboto
-   KEEP.Text = "KEEP"
-   KEEP.TextColor3 = Color3.fromRGB(255, 255, 255)
-   KEEP.TextScaled = true
-   KEEP.TextSize = 14.000
-   KEEP.TextWrapped = true
-   KEEP.MouseButton1Down:Connect(function(...)
-       SF = false
-       WARN:Destroy()
-   end)
-
-   REROLL.Name = "REROLL"
-   REROLL.Parent = MAIN
-   REROLL.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-   REROLL.BorderSizePixel = 0
-   REROLL.Position = UDim2.new(0.536269426, 0, 0.668049812, 0)
-   REROLL.Size = UDim2.new(0, 162, 0, 39)
-   REROLL.Font = Enum.Font.Roboto
-   REROLL.Text = "RE-ROLL"
-   REROLL.TextColor3 = Color3.fromRGB(255, 255, 255)
-   REROLL.TextScaled = true
-   REROLL.TextSize = 14.000
-   REROLL.TextWrapped = true
-   REROLL.MouseButton1Down:Connect(function(...)
-       UseRoka()
-       WARN:Destroy()
-   end)
+   local Bind = Instance.new("BindableFunction")
+   
+   Bind.OnInvoke = function(Option)
+      if Option == ("Keep") then SF = false end
+      if Option == ("Re-Roll") then UseRoka() end
+   end
+    
+   game.StarterGui:SetCore("SendNotification", {
+      Title = "Stand Rolled;",
+      Text = ("You Rolled: " .. StandName),
+      Duration = 9999,
+      Button1 = ("Keep"),
+      Button2 = ("Re-Roll"),
+      callback = Bind
+   })
 end
 
 local function Check()
