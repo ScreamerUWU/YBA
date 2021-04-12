@@ -11,6 +11,7 @@ SETTINGS
 local ItemDropWait = (1.1)
 local SellAmount = ""
 local DropAmount = ""
+local DropEnabled = false
 
 local AA = false
 local IFAJ = false
@@ -35,6 +36,9 @@ local function AttemptToDrop(Name, Time)
         for Index, Obj in pairs(
                               game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
             if Obj.Name == (Name) then
+                
+                if not DropEnabled then return end
+                
                 game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(
                     "DropItem", Obj)
                 wait(Time)
@@ -50,6 +54,7 @@ local function AttemptToDrop(Name, Time)
             if Obj.Name == (Name) then
 
                 if Amount == tonumber(DropAmount) then return end
+                if not DropEnabled then return end
 
                 Amount = Amount + 1
 
@@ -134,6 +139,13 @@ UIWINDOW:AddSlider({
     float = 0,
     value = ItemDropWait,
     callback = function(Amount) ItemDropWait = Amount end
+})
+
+UIWINDOW:AddToggle({
+    text = "Drop Enabled",
+    callback = function(Bool)
+        DropEnabled = Bool
+    end
 })
 
 for Index, TableValue in pairs(Items) do
