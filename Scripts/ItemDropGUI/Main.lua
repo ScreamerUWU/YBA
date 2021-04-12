@@ -2,6 +2,7 @@ local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
 local UILIBRARY = loadstring(UI)()
 local UIWINDOW = UILIBRARY:CreateWindow("Auto Drop")
 local UIWINDOWS = UILIBRARY:CreateWindow("Item Sell")
+local UIWINDOWM = UILIBRARY:CreateWindow("Misc")
 
 --[[
 SETTINGS
@@ -10,6 +11,9 @@ SETTINGS
 local ItemDropWait = (1.1)
 local SellAmount = ""
 local DropAmount = ""
+
+local AA = false
+local IFAJ = false
 
 --[[
 SCRIPT
@@ -111,6 +115,20 @@ local function SellItem(Name, Wait)
       
    end
 end
+
+local function RollArcade()
+    
+   local ArcadeInfo = {
+      "EndDialogue",
+      {
+       NPC = "Item Machine",
+       Option = "Option1",
+       Dialogue = "Dialogue1"
+      }
+   }
+   
+   game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(ArcadeInfo))
+end
  
 UIWINDOW:AddBox({
                     text = "Drop Amount",
@@ -207,7 +225,31 @@ for Index, TableValue in pairs(Items) do
    end
 end
 
+UIWINDOWM:AddToggle({
+  text = "Auto Arcade",
+  callback = function(Bool)
+      AA = true
+  end
+})
+
+UIWINDOWM:AddToggle({
+  text = "Admin AutoKick",
+  callback = function(Bool)
+      IFAJ = true
+  end
+})
+
 UILIBRARY:Init()
+
+game:GetService("Players").PlayerAdded:Connect(function(Player)
+    if Player:IsInGroup(3194064) and IFAJ then game:GetService("Players").LocalPlayer:Kick("Admin Joined!") end   
+end)
+   
+game:GetService("RunService").RenderStepped:Connect(function(...)
+    if AA then
+       RollArcade()  
+    end
+end)
 
 game.StarterGui:SetCore("SendNotification", {
   Title = "Script;",
