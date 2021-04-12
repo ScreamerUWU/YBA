@@ -1,6 +1,6 @@
 local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
 local UILIBRARY = loadstring(UI)()
-local UIWINDOWDA = UILIBRARY:CreateWindow("Auto Drop")
+local UIWINDOWD = UILIBRARY:CreateWindow("Auto Drop")
 local UIWINDOWS = UILIBRARY:CreateWindow("Item Sell")
 local UIWINDOWSF = UILIBRARY:CreateWindow("Stand Farm")
 local UIWINDOWM = UILIBRARY:CreateWindow("Misc")
@@ -333,4 +333,3 @@ game.StarterGui:SetCore("SendNotification", {
     Text = "Code made neater by Chrrxs ( God )",
     Duration = 3
 })
-
