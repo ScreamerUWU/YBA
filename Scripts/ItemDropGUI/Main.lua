@@ -105,18 +105,23 @@ local function SetWorthII()
    end
 end
 
-local function StandWarn(StandNAME)
-   
+local function StandWarn(StandNAME, Pity)
+    
+   local Shiny = ""
    local Bind = Instance.new("BindableFunction")
    
    Bind.OnInvoke = function(Option)
       if Option == ("Keep") then SF = false end
       if Option == ("Re-Roll") then UseRoka() end
    end
+   
+   if Pity == (0) then
+      Shiny = " ( Shiny )"
+   end
     
    game.StarterGui:SetCore("SendNotification", {
       Title = "Stand Rolled;",
-      Text = ("You Rolled: " .. StandNAME),
+      Text = ("You Rolled: " .. StandNAME .. Shiny),
       Duration = 9999,
       Button1 = ("Keep"),
       Button2 = ("Re-Roll"),
@@ -133,7 +138,7 @@ local function Check()
             wait()
       until game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None")
         
-      StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value)
+      StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
       
    elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
       StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value)
