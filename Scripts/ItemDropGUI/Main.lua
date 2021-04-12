@@ -7,6 +7,7 @@ SETTINGS
 ]]
 
 local ItemDropWait = (1.1)
+local DropAmount = ""
 
 --[[
 SCRIPT
@@ -30,21 +31,52 @@ local Items = {
 }
 
 local function AttemptToDrop(Name, Time)
-  
+   
+   local Amount = 0
+   
+   if DropAmount == "" or tonumber(DropAmount) == tonumber(0) then
+   
    for Index, Obj in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
       if Obj.Name == (Name) then
         game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer("DropItem", Obj)
         wait(Time)
       end
    end
-       
+   
+   end
+   
+   if DropAmount ~= "" and tonumber(DropAmount) ~= 0 then
+      
+      
+      for Index, Obj in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+         if Obj.Name == (Name) then
+             
+            if Amount == tonumber(DropAmount) then return end
+             
+            Amount = Amount + 1
+            
+            game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer("DropItem", Obj)
+            wait(Time)
+         end
+      end
+      
+   end
 end
  
+UIWINDOW:AddBox({
+                    text = "Drop Amount",
+                    value = DropAmount,
+                    callback = function(Amount)
+                       DropAmount = Amount
+                       warn(DropAmount)
+                    end
+})
+
 UIWINDOW:AddSlider({
                     text = "Drop Time",
                     min = 1.1,
                     max = 3,
-                    float = 0.25,
+                    float = 0,
                     value = ItemDropWait,
                     callback = function(Amount)
                        ItemDropWait = Amount
@@ -85,4 +117,3 @@ for Index, TableValue in pairs(Items) do
 end
 
 UILIBRARY:Init()
-   
