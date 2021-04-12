@@ -87,7 +87,7 @@ local function SetWorthII()
     
    local RemoteFunction = game:GetService("Players").LocalPlayer.Character.RemoteFunction
     
-   for 1, #SkillsToDO do
+   for i = 1, #SkillsToDO do
       RemoteFunction:InvokeServer("LearnSkill", MakeSkillTable(SkillsToDO[i]))
    end
 end
