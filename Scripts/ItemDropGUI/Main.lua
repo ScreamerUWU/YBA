@@ -1,12 +1,14 @@
 local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
 local UILIBRARY = loadstring(UI)()
 local UIWINDOW = UILIBRARY:CreateWindow("Auto Drop")
+local UIWINDOWS = UILIBRARY:CreateWindow("Item Sell")
 
 --[[
 SETTINGS
 ]]
 
 local ItemDropWait = (1.1)
+local SellAmount = ""
 local DropAmount = ""
 
 --[[
@@ -62,6 +64,53 @@ local function AttemptToDrop(Name, Time)
       
    end
 end
+
+local function SellItem(Name, Wait)
+    
+    local Info = {
+     "EndDialogue",
+     {
+      NPC = "Merchant",
+      Option = "Option1",
+      Dialogue = "Dialogue5"
+     }
+    }
+    
+       
+   local Amount = 0
+   
+   if SellAmount == "" or tonumber(SellAmount) == tonumber(0) then
+   
+   for Index, Obj in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+      if Obj.Name == (Name) then
+        Obj.Parent = game:GetService("Players").LocalPlayer.Character
+            
+        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(Info))
+        wait(Time)
+      end
+   end
+   
+   end
+   
+   if SellAmount ~= "" and tonumber(SellAmount) ~= 0 then
+      
+      
+      for Index, Obj in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+         if Obj.Name == (Name) then
+             
+            if Amount == tonumber(SellAmount) then return end
+             
+            Amount = Amount + 1
+            
+            Obj.Parent = game:GetService("Players").LocalPlayer.Character
+            
+            game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(Info))
+            wait(Time)
+         end
+      end
+      
+   end
+end
  
 UIWINDOW:AddBox({
                     text = "Drop Amount",
@@ -111,6 +160,48 @@ for Index, TableValue in pairs(Items) do
                        text = TableValue,
                        callback = function()
                           AttemptToDrop(TableValue, ItemDropWait)
+                       end
+   }) 
+   end
+end
+
+UIWINDOWS:AddBox({
+                    text = "Sell Amount",
+                    value = SellAmount,
+                    callback = function(Amount)
+                       SellAmount = Amount
+                       warn(SellAmount)
+                    end
+})
+
+for Index, TableValue in pairs(Items) do
+   
+   local IsRib = false
+   local IsArm = false
+   
+   if TableValue == ("Rib Cage of The Saint's Corpse") then
+      UIWINDOWS:AddButton({
+                       text = "Rib Cage",
+                       callback = function()
+                          SellItem(TableValue, 0)
+                       end
+       }) 
+       IsRib = true
+   elseif TableValue == ("Left Arm Of The Saint's Corpse") then
+      UIWINDOWS:AddButton({
+                       text = "Left Arm",
+                       callback = function()
+                          SellItem(TableValue, 0)
+                       end
+      })  
+      IsArm = true
+   end
+   
+   if not IsArm and not IsRib then
+      UIWINDOWS:AddButton({
+                       text = TableValue,
+                       callback = function()
+                          SellItem(TableValue, 0)
                        end
    }) 
    end
