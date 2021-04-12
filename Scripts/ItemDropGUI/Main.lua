@@ -116,7 +116,7 @@ local function StandWarn(StandNAME)
     
    game.StarterGui:SetCore("SendNotification", {
       Title = "Stand Rolled;",
-      Text = ("You Rolled: " .. StandName),
+      Text = ("You Rolled: " .. StandNAME),
       Duration = 9999,
       Button1 = ("Keep"),
       Button2 = ("Re-Roll"),
