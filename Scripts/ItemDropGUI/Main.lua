@@ -24,7 +24,7 @@ local Items = {
     "Rokakaka", "Mysterious Arrow", "Pure Rokakaka", "DEO's Diary",
     "Rib Cage of The Saint's Corpse", "Steel Ball", "Quinton's Glove",
     "Zepellin's Headband", "Ancient Scroll", "Stone Mask", "Diamond",
-    "Gold Coin", "Lucky Arrow", "Left Arm Of The Saint's Corpse"
+    "Gold Coin", "Lucky Arrow", "Left Arm of The Saint's Corpse"
 }
 
 local function AttemptToDrop(Name, Time)
