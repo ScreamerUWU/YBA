@@ -117,3 +117,9 @@ for Index, TableValue in pairs(Items) do
 end
 
 UILIBRARY:Init()
+
+game.StarterGui:SetCore("SendNotification", {
+  Title = "Script;",
+  Text = "Successfully Loaded! Made by Screamer#2252",
+  Duration = 6
+})
