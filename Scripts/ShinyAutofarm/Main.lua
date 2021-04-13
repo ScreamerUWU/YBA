@@ -143,3 +143,9 @@ game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Char)
 end)
 
 UILIBRARY:Init()
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Script;",
+    Text = "Successfully Loaded! Made by Screamer#2252 join the discord: https://discord.gg/TQsqjPta3X",
+    Duration = 6
+})
