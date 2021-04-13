@@ -370,12 +370,12 @@ game:GetService("Players").LocalPlayer.CharacterAdded:Connect(
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Script;",
-    Text = "Successfully Loaded! Made by Screamer#2252 join the discord: https://discord.gg/TQsqjPta3X",
+    Text = "Successfully Loaded! Made by Screamer#2252",
     Duration = 6
 })
 
 game.StarterGui:SetCore("SendNotification", {
-    Title = "Script Info;",
-    Text = "Code made neater by Chrrxs ( God )",
-    Duration = 3
+    Title = "Discord;",
+    Text = "https://discord.gg/TQsqjPta3X",
+    Duration = 15
 })
