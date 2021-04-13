@@ -67,3 +67,5 @@ game.StarterGui:SetCore("SendNotification", {
     Text = "https://discord.gg/TQsqjPta3X",
     Duration = 15
 })
+
+UILOADER:Init()
