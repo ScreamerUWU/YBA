@@ -1,5 +1,34 @@
+local Success, Error = pcall(function()
+      local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
+      local UILOADER = loadstring(UI)()
+end)
+
+if Success then
+   warn("/")
+elseif Error then
+    game.StarterGui:SetCore("SendNotification", {
+       Title = "Error;",
+       Text = "Your exploit does not support this script!",
+       Duration = 15
+    })
+    return
+end
+   
+local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
+local UILOADER = loadstring(UI)()
+local UIWINDOW = UILOADER:CreateWindow("Auto Pickup")
+   
+local Enabled = false
+
+UIWINDOW:AddToggle({
+   text = "Enabled",
+   callback = function(Bool)
+      Enabled = Bool
+   end
+})
+
 local function ItemCollect(Child)
-   if Child.Name == ("Item") then
+   if Child.Name == ("Item") and Enabled then
   
       local CD = Child:WaitForChild("ClickDetector")
        
