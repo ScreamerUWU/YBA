@@ -90,13 +90,16 @@ local function StandWarn(StandNAME, Pity)
       if Option == ("Re-Roll") then UseRoka() end
    end
    
-   if not Pity == (0) then return end
+   if Pity == (0) then 
+        game.StarterGui:SetCore("SendNotification", {
+        Title = "Shiny Rolled;",
+        Text = ("You Rolled a SHINY: " .. StandNAME),
+        Duration = 15
+      })
+   else
+      UseRoka()
+   end
     
-   game.StarterGui:SetCore("SendNotification", {
-      Title = "Shiny Rolled;",
-      Text = ("You Rolled a SHINY: " .. StandNAME),
-      Duration = 15
-   })
 end
 
 local function ShinyCheck()
@@ -109,6 +112,7 @@ local function ShinyCheck()
       until game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None")
         
       StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
+   
    elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
       if game:GetService("Players").LocalPlayer:FindFirstChild("PityCount") then
           if not game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value == (0) or game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value ~= 0 then
