@@ -11,9 +11,10 @@ elseif Error then
     game.StarterGui:SetCore("SendNotification", {
        Title = "Error;",
        Text = "Your exploit does not support this script!",
-       Duration = 15
+       Duration = 5
     })
-    return
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ScreamerUWU/YBA/main/Scripts/AutoPickup/UNSUPPORTED.lua"))()
+    return 
 end
    
 local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
