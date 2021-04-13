@@ -120,7 +120,7 @@ local function ShinyCheck()
    end
 end
 
-UIWINDOW:CreateToggle({
+UIWINDOW:AddToggle({
    text = ("Shiny Farm"),
    callback = function(Bool)
       ShinyFarm = Bool
