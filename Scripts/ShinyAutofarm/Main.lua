@@ -1,3 +1,19 @@
+local Success, Error = pcall(function()
+      local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
+      local UILOADER = loadstring(UI)()
+end)
+
+if Success then
+   warn("/")
+elseif Error then
+    game.StarterGui:SetCore("SendNotification", {
+       Title = "Error;",
+       Text = "Your exploit does not support this script!",
+       Duration = 15
+    })
+    return
+end
+
 local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
 local UILIBRARY = loadstring(UI)()
 local UIWINDOW = UILIBRARY:CreateWindow("Auto Farm")
