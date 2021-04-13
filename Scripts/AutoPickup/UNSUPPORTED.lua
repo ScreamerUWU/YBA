@@ -34,6 +34,12 @@ game.StarterGui:SetCore("SendNotification", {
 })
 
 game.StarterGui:SetCore("SendNotification", {
+    Title = "Script;",
+    Text = "You are running the FREE exploit version.",
+    Duration = 15
+})
+
+game.StarterGui:SetCore("SendNotification", {
     Title = "Discord;",
     Text = "https://discord.gg/TQsqjPta3X",
     Duration = 15
