@@ -10,13 +10,16 @@ local function ItemCollect(Child)
 
          local Magnitude = (Player.Position - Item.Position).Magnitude
             
-         if Magnitude > 8 then
+         if Magnitude > 70 then
             return
          else
+            local Attempt = 0
+            
             repeat
                  wait()
+            Attempt = Attempt + 1
             fireclickdetector(Child:WaitForChild("ClickDetector"))
-            until not Child
+            until not Child or Attempt > 1000
          end
       end
    end
