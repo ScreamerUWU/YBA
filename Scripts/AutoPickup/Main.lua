@@ -1,6 +1,8 @@
 local Success, Error = pcall(function()
       local UI = game:HttpGet("https://pastebin.com/raw/edJT9EGX")
       local UILOADER = loadstring(UI)()
+            
+      UILOADER:Init()
 end)
 
 if Success then
