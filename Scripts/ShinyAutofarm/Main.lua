@@ -95,8 +95,7 @@ local function StandWarn(StandNAME, Pity)
    game.StarterGui:SetCore("SendNotification", {
       Title = "Shiny Rolled;",
       Text = ("You Rolled a SHINY: " .. StandNAME),
-      Duration = 15,
-      Callback = Bind
+      Duration = 15
    })
 end
 
@@ -122,7 +121,7 @@ local function ShinyCheck()
 end
 
 UIWINDOW:CreateToggle({
-   text = ("Shiny Farm")
+   text = ("Shiny Farm"),
    callback = function(Bool)
       ShinyFarm = Bool
       
