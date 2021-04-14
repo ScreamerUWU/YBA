@@ -384,7 +384,7 @@ game:GetService("RunService").RenderStepped:Connect(
     function(...) if AA then RollArcade() end end)
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(
-    function(Character) wait(.2) Check() end)
+    function(Character) if SF then wait(.2) Check() end end)
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Script;",
