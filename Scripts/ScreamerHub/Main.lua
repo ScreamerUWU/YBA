@@ -86,7 +86,7 @@ local function Drop(Name, Time)
 
     local Amount = 0
 
-    if DropAmount == "" or tonumber(DropAmount) == tonumber(0) then
+    if DropAmount == "" or tonumber(DropAmount) == tonumber(0) or DropAmount == "All" or DropAmount == "all" then
 
         for Index, Obj in pairs(
                               game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
