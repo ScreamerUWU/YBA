@@ -3,7 +3,10 @@ VARIABLES
 ]]
 
 local ItemDropWait = (1.1)
+
 local SellAmount = ""
+local SellEnabled = false
+
 local DropAmount = ""
 local DropEnabled = false
 
@@ -122,6 +125,56 @@ local function Drop(Name, Time)
     end
 end
 
+local function Sell(Name, Wait)
+
+    local Info = {
+        "EndDialogue",
+        {NPC = "Merchant", Option = "Option1", Dialogue = "Dialogue5"}
+    }
+
+    local Amount = 0
+
+    if SellAmount == "" or tonumber(SellAmount) == tonumber(0) then
+
+        for Index, Obj in pairs(
+                              game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+            if Obj.Name == (Name) then
+                
+                if not SellEnabled then return end
+                
+                Obj.Parent = game:GetService("Players").LocalPlayer.Character
+
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(
+                    unpack(Info))
+                wait(Time)
+            end
+        end
+
+    end
+
+    if SellAmount ~= "" and tonumber(SellAmount) ~= 0 then
+
+        for Index, Obj in pairs(
+                              game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+            if Obj.Name == (Name) then
+                
+
+                if Amount == tonumber(SellAmount) then return end
+                if not SellEnabled then return end
+
+                Amount = Amount + 1
+
+                Obj.Parent = game:GetService("Players").LocalPlayer.Character
+
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(
+                    unpack(Info))
+                wait(Time)
+            end
+        end
+
+    end
+end
+
 --[[
 UI LOADING
 ]]
@@ -132,7 +185,7 @@ local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-sc
 UI WINDOWS
 ]]
 
-local FluxWindow = Flux:Window("Screamer Hub", "", Color3.fromRGB(12, 12, 12), Enum.KeyCode.LeftControl)
+local FluxWindow = Flux:Window("Screamer Hub", "", Color3.fromRGB(12, 12, 12), Enum.KeyCode.RightControl)
 
 --[[
 UI TABS
@@ -169,4 +222,32 @@ end)
 
 FluxTabAutoDrop:Dropdown("Items", Items, function(Picked)
     Drop(Picked, ItemDropWait)
+end)
+
+--[[
+AUTO SELL FUNCTIONS
+]]
+
+FluxTabAutoSell:Toggle("Selling Enabled", "Enable's selling items.", false, function(Bool)
+    SellEnabled = Bool
+    
+    if Bool then
+       Flux:Notification("Selling Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Selling Disabled", "Proceed")
+    end
+end)
+
+FluxTabAutoSell:Textbox("Sell Amount", "Set's the amount of items you want to sell, type 'all' for all items.", true, function(Amount)
+    SellAmount = Amount
+    
+    if SellAmount ~= ("") or SellAmount ~= ("All") or SellAmount ~= ("all") then
+        Flux:Notification(("Sell Amount is set to " .. SellAmount), "Proceed")
+    else
+       Flux:Notification("Sell Amount is set to ALL", "Proceed")
+    end
+end)
+
+FluxTabAutoSell:Dropdown("Items", Items, function(Picked)
+    Sell(Picked, 0)
 end)
