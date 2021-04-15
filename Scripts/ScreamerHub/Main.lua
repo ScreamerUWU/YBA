@@ -13,6 +13,9 @@ local DropEnabled = false
 local AA = false
 local IFAJ = false
 local SF = false
+local SFN = false
+
+local STF = ""
 
 --[[
 TABLES
@@ -83,6 +86,27 @@ local function UseRoka()
        })
     end
     
+end
+
+local function WarnUseRoka()
+    local CB = Instance.new("BindableFunction")
+    
+    CB.OnInvoke = function(Text)
+       if Text == ("Yes") then
+          UseRoka()
+       elseif Text == ("No") then
+          return
+       end
+    end
+    
+   game.StarterGui:SetCore("SendNotification", {
+     Title = "Shiny AutoFarm;",
+     Text = "This will roka your current stand, continue?",
+     Duration = 999999,
+     Button1 = "Yes",
+     Button2 = "No",
+     Callback = CB
+   })
 end
 
 local function Drop(Name, Time)
@@ -175,6 +199,70 @@ local function Sell(Name, Wait)
     end
 end
 
+local function MakeSkillTable(Name)
+    return {Skill = Name, SkillTreeType = "Character"}
+end
+
+local function SetWorthII()
+   local SkillsToDO = {
+        [1] = "Agility I", 
+        [2] = "Agility II", 
+        [3] = "Agility III", 
+        [4] = "Worthiness I", 
+        [5] = "Worthiness II"
+   }
+    
+   local RemoteFunction = game:GetService("Players").LocalPlayer.Character:WaitForChild("RemoteFunction")
+    
+   for i = 1, #SkillsToDO do
+      RemoteFunction:InvokeServer("LearnSkill", MakeSkillTable(SkillsToDO[i]))
+   end
+end
+
+local function StandWarn(StandNAME, Pity)
+    
+   local Shiny = ""
+   local Bind = Instance.new("BindableFunction")
+   
+   Bind.OnInvoke = function(Option)
+      if Option == ("Keep") then SF = false end
+      if Option == ("Re-Roll") then UseRoka() end
+   end
+   
+   if Pity == (0) then 
+        game.StarterGui:SetCore("SendNotification", {
+        Title = "Shiny Rolled;",
+        Text = ("You Rolled a SHINY: " .. StandNAME),
+        Duration = 15
+      })
+   else
+      UseRoka()
+   end
+    
+end
+
+local function ShinyCheck()
+   if game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value == ("None") then
+      SetWorthII()
+      UseArrow()
+        
+      repeat 
+            wait()
+      until game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None")
+        
+      StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
+   
+   elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
+      if game:GetService("Players").LocalPlayer:FindFirstChild("PityCount") then
+          if not game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value == (0) or game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value ~= 0 then
+             UseRoka()
+          end
+      else
+         WarnUseRoka()
+      end
+   end
+end
+
 --[[
 UI LOADING
 ]]
@@ -185,7 +273,7 @@ local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-sc
 UI WINDOWS
 ]]
 
-local FluxWindow = Flux:Window("Screamer Hub", "", Color3.fromRGB(12, 12, 12), Enum.KeyCode.RightControl)
+local FluxWindow = Flux:Window("Screamer Hub", "", Color3.fromRGB(12, 12, 12), Enum.KeyCode.RightAlt)
 
 --[[
 UI TABS
@@ -250,4 +338,27 @@ end)
 
 FluxTabAutoSell:Dropdown("Items", Items, function(Picked)
     Sell(Picked, 0)
+end)
+
+--[[
+AUTO FARM FUNCTIONS
+]]
+
+FluxTabStandFarm:Toggle("Shiny Auto Farm", "Keep's using arrows and rokas until your pity reset's.", false, function(Bool)
+    SF = true
+    
+    if Bool then
+       Flux:Notification("Shiny Farm Enabled", "Proceed")
+       ShinyCheck()
+    elseif not Bool then
+       Flux:Notification("Shiny Farm Disabled", "Proceed")
+    end
+end)
+
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character)
+    wait(.1)
+    
+    if SF then
+       ShinyCheck()
+    end
 end)
