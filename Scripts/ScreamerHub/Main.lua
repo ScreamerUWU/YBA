@@ -15,7 +15,8 @@ local IFAJ = false
 local SF = false
 local SFN = false
 
-local STF = ""
+local STF = "The Universe"
+local SFKS = false
 
 --[[
 TABLES
@@ -28,9 +29,61 @@ local Items = {
     "Gold Coin", "Lucky Arrow", "Left Arm of The Saint's Corpse"
 }
 
+local Stands = {
+ "White Snake", "Star Platinum", "The World", "King Crimson",
+ "Golden Experience", "Killer Queen", "Crazy Diamond", "Silver Chariot",
+ "Cream", "The Hand", "Sex Pistols", "Purple Haze",
+ "Sticky Fingers", "Hierophant Green", "Magician's Red", "White Album",
+ "Hermit Purple", "Mr. President", "Beach Boy"
+}
+
 --[[
 FUNCTIONS
 ]]
+
+local function YNTCN(Name)
+    if Name == ("White Poison") then return ("White Snake") end
+    if Name == ("Platinum Sun") then return ("Star Platinum") end
+    if Name == ("The Universe") then return ("The World") end
+    if Name == ("Scarlet King") then return ("King Crimson") end
+    if Name == ("Golden Spirit") then return ("Golden Experience") end
+    if Name == ("Deadly King") then return ("Killer Queen") end
+    if Name == ("Shining Sapphire") then return ("Crazy Diamond") end
+    if Name == ("Grey Rapier") then return ("Silver Chariot") end
+    if Name == ("Void") then return ("Cream") end
+    if Name == ("That Hand") then return ("The Hand") end
+    if Name == ("Six Pistols") then return ("Sex Pistols") end
+    if Name == ("Violet Fog") then return ("Purple Haze") end
+    if Name == ("Zipper Fingers") then return ("Sticky Fingers") end
+    if Name == ("Tentacle Green") then return ("Hierophant Green") end
+    if Name == ("Magician's Ember") then return ("Magician's Red") end
+    if Name == ("Ice Album") then return ("White Album") end
+    if Name == ("Violet Vine") then return ("Hermit Purple") end
+    if Name == ("Ms. Vice President") then reurn ("Mr. President") end
+    if Name == ("Ocean Boy") then return ("Beach Boy") end
+end
+
+local function CNTYN(StandNAME)
+   if StandNAME == ("White Snake") then return ("White Poison") end
+   if StandNAME == ("Star Platinum") then return ("Platinum Sun") end
+   if StandNAME == ("The World") then return ("The Universe") end
+   if StandNAME == ("King Crimson") then return ("Scarlet King") end
+   if StandNAME == ("Golden Experience") then return ("Golden Spirit") end
+   if StandNAME == ("Killer Queen") then return ("Deadly King") end
+   if StandNAME == ("Crazy Diamond") then return ("Shining Sapphire") end
+   if StandNAME == ("Silver Chariot") then return ("Grey Rapier") end
+   if StandNAME == ("Cream") then return ("Void") end
+   if StandNAME == ("The Hand") then return ("That Hand") end
+   if StandNAME == ("Sex Pistols") then return ("Six Pistols") end
+   if StandNAME == ("Purple Haze") then return ("Violet Fog") end
+   if StandNAME == ("Sticky Fingers") then return ("Zipper Fingers") end
+   if StandNAME == ("Hierophant Green") then return ("Tentacle Green") end
+   if StandNAME == ("Magician's Red") then return ("Magician's Ember") end
+   if StandNAME == ("White Album") then return ("Ice Album") end
+   if StandNAME == ("Hermit Purple") then return ("Violet Vine") end
+   if StandNAME == ("Mr. President") then return ("Ms. Vice President") end
+   if StandNAME == ("Beach Boy") then return ("Ocean Boy") end
+end
 
 local function UseArrow()
     
@@ -219,7 +272,7 @@ local function SetWorthII()
    end
 end
 
-local function StandWarn(StandNAME, Pity)
+local function StandWarnSF(StandNAME, Pity)
     
    local Shiny = ""
    local Bind = Instance.new("BindableFunction")
@@ -241,6 +294,29 @@ local function StandWarn(StandNAME, Pity)
     
 end
 
+local function StandWarnN(StandNAME, Pity)
+
+   
+   if Pity == (0) and SFKS then 
+      game.StarterGui:SetCore("SendNotification", {
+        Title = "Shiny Rolled;",
+        Text = ("You Rolled a SHINY: " .. StandNAME),
+        Duration = 15
+      })
+      SFN = false
+   elseif STF == (StandNAME) then
+      game.StarterGui:SetCore("SendNotification", {
+        Title = "Stand Rolled;",
+        Text = ("You Rolled your stand! : " .. StandNAME),
+        Duration = 15
+      })
+      SFN = false
+   else
+      UseRoka()
+   end
+    
+end
+
 local function ShinyCheck()
    if game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value == ("None") then
       SetWorthII()
@@ -250,7 +326,7 @@ local function ShinyCheck()
             wait()
       until game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None")
         
-      StandWarn(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
+      StandWarnSF(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
    
    elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
       if game:GetService("Players").LocalPlayer:FindFirstChild("PityCount") then
@@ -259,6 +335,28 @@ local function ShinyCheck()
           end
       else
          WarnUseRoka()
+      end
+   end
+end
+
+local function NormalCheck()
+   if game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value == ("None") then
+      SetWorthII()
+      UseArrow()
+        
+      repeat 
+            wait()
+      until game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None")
+        
+      StandWarnN(game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value, game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value)
+   
+   elseif game:GetService("Players").LocalPlayer:WaitForChild("PlayerStats"):WaitForChild("Stand").Value ~= ("None") then
+      if game:GetService("Players").LocalPlayer:FindFirstChild("PityCount") then
+          if not game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value == (0) or game:GetService("Players").LocalPlayer:WaitForChild("PityCount").Value ~= 0 then
+             WarnUseRoka()
+          end
+      else
+         UseRoka()
       end
    end
 end
@@ -345,7 +443,7 @@ AUTO FARM FUNCTIONS
 ]]
 
 FluxTabStandFarm:Toggle("Shiny Auto Farm", "Keep's using arrows and rokas until your pity reset's.", false, function(Bool)
-    SF = true
+    SF = Bool
     
     if Bool then
        Flux:Notification("Shiny Farm Enabled", "Proceed")
@@ -355,10 +453,47 @@ FluxTabStandFarm:Toggle("Shiny Auto Farm", "Keep's using arrows and rokas until 
     end
 end)
 
+FluxTabStandFarm:Toggle("Auto Farm", "Keep's using arrows until you get the stand you want.", false, function(Bool)
+    SFN = Bool
+    
+    if Bool then
+       Flux:Notification("Auto Farm Enabled", "Proceed")
+       NormalCheck()
+    elseif not Bool then
+       Flux:Notification("Auto Farm Disabled", "Proceed")
+    end
+end)
+
+FluxTabStandFarm:Toggle("Keep Shinys", "Keep's shinys while using the normal autofarm.", false, function(Bool)
+    SFKS = Bool
+    
+    if Bool then
+       Flux:Notification("Keep Shinys Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Keep Shinys Disabled", "Proceed")
+    end
+end)
+
+FluxTabStandFarm:Dropdown("Stands", Stands, function(Picked)
+    STF = CNTYN(Picked)
+    
+    Flux:Notification(("Started farming: " .. Picked), "Proceed")
+end)
+
+--[[
+OTHER FUNCTIONS
+]]
+
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character)
     wait(.1)
     
+    if SF and SFN then Flux:Notification("You can't have both Shiny and Normal AutoFarm Enabled!", "Proceed") return end
+    
     if SF then
        ShinyCheck()
+    end
+    
+    if not SF and SFN then
+       NormalCheck()
     end
 end)
