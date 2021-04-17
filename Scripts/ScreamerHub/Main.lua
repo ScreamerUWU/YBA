@@ -2,6 +2,8 @@
 VARIABLES
 ]]
 
+local VirtualUser = game:GetService("VirtualUser")
+
 local ItemDropWait = (1.1)
 
 local SellAmount = ""
@@ -9,6 +11,10 @@ local SellEnabled = false
 
 local DropAmount = ""
 local DropEnabled = false
+
+local APEnabled = false
+
+local AFK = true
 
 local AA = false
 local IFAJ = false
@@ -251,6 +257,15 @@ local function WarnUseRoka()
    })
 end
 
+local function RollArcade()
+    local ArcadeInfo = {
+        "EndDialogue",
+        {NPC = "Item Machine", Option = "Option1", Dialogue = "Dialogue1"}
+    }
+    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(
+        unpack(ArcadeInfo))
+end
+
 local function Drop(Name, Time)
 
     local Amount = 0
@@ -457,6 +472,33 @@ local function NormalCheck()
    end
 end
 
+local function ItemCollect(Child)
+   if Child.Name == ("Item") and APEnabled then
+  
+      local CD = Child:WaitForChild("ClickDetector")
+       
+      if Child:FindFirstChild("ClickDetector") then
+         
+         local Player = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+         local Item = Child:WaitForChild("Base") or Child:WaitForChild("Part")
+
+         local Magnitude = (Player.Position - Item.Position).Magnitude
+            
+         if Magnitude > 70 then
+            return
+         else
+            local Attempt = 0
+            
+            repeat
+                 wait()
+            Attempt = Attempt + 1
+            fireclickdetector(Child:WaitForChild("ClickDetector"))
+            until not Child or Attempt > 1000
+         end
+      end
+   end
+end
+
 --[[
 UI LOADING
 ]]
@@ -581,8 +623,58 @@ for i = 1,#Stands do
 end
 
 --[[
+MISC FUNCTIONS
+]]
+
+FluxTabMISC:Toggle("Anti AFK", "Stop's roblox from kicking you while your AFK.", true, function(Bool)
+    AFK = Bool
+
+    if Bool then
+       Flux:Notification("Anti AFK Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Anti AFK Disabled", "Proceed")
+    end
+end)
+
+FluxTabMISC:Toggle("Auto Pickup", "Automatically grabs items from up to 15 - 25 studs away.", false, function(Bool)
+    APEnabled = Bool
+    
+    if Bool then
+       Flux:Notification("Auto Pickup Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Auto Pickup Disabled", "Proceed")
+    end
+end)
+
+FluxTabMISC:Toggle("Auto Arcade", "Automatically grabs items from up to 15 - 25 studs away.", false, function(Bool)
+    AA = Bool
+    
+    if Bool then
+       Flux:Notification("Auto Arcade Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Auto Arcade Disabled", "Proceed")
+    end
+end)
+
+--[[
 OTHER FUNCTIONS
 ]]
+
+game:GetService("RunService").RenderStepped:Connect(function(...)
+    if AA then
+       RollArcade()
+    end
+end)
+
+game:GetService("Workspace").ChildAdded:Connect(ItemCollect)
+
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    if AFK then
+       VirtualUser:CaptureController()
+       VirtualUser:ClickButton2(Vector2.new())
+       print("AFK")
+    end
+end)
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character)
     wait(.1)
