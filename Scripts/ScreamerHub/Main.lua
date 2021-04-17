@@ -242,7 +242,7 @@ local function WarnUseRoka()
     end
     
    game.StarterGui:SetCore("SendNotification", {
-     Title = "Shiny AutoFarm;",
+     Title = "HUB;",
      Text = "This will roka your current stand, continue?",
      Duration = 999999,
      Button1 = "Yes",
@@ -389,7 +389,7 @@ local function StandWarnN(StandNAME, Pity)
    
    for i = 1,#Stands do
        if Stands[i].Farming == (true) then
-          table.insert(Farming, YNTCN(Stands[i].Stand))
+          table.insert(Farming, CNTYN(Stands[i].Stand))
        end
    end
    
