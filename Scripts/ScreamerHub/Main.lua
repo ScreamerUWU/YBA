@@ -30,11 +30,100 @@ local Items = {
 }
 
 local Stands = {
- "White Snake", "Star Platinum", "The World", "King Crimson",
- "Golden Experience", "Killer Queen", "Crazy Diamond", "Silver Chariot",
- "Cream", "The Hand", "Sex Pistols", "Purple Haze",
- "Sticky Fingers", "Hierophant Green", "Magician's Red", "White Album",
- "Hermit Purple", "Mr. President", "Beach Boy"
+ [1] = {
+  Stand = "White Snake",
+  Farming = false
+ },
+ 
+ [2] = {
+  Stand = "Star Platinum",
+  Farming = false
+ },
+ 
+ [3] = {
+  Stand = "The World",
+  Farming = false
+ },
+ 
+ [4] = {
+  Stand = "King Crimson",
+  Farming = false
+ },
+ 
+ [5] = {
+  Stand = "Golden Experience",
+  Farming = false
+ },
+
+ [6] = {
+  Stand = "Killer Queen",
+  Farming = false
+ },
+ 
+ [7] = {
+  Stand = "Crazy Diamond",
+  Farming = false
+ },
+
+ [8] = {
+  Stand = "Silver Chariot",
+  Farming = false
+ },
+
+ [9] = {
+  Stand = "Cream",
+  Farming = false
+ },
+
+ [10] = {
+  Stand = "The Hand",
+  Farming = false
+ },
+
+ [11] = {
+  Stand = "Sex Pistols",
+  Farming = false
+ },
+ 
+ [12] = {
+  Stand = "Purple Haze",
+  Farming = false
+ },
+ 
+ [13] = {
+  Stand = "Sticky Fingers",
+  Farming = false
+ },
+ 
+ [14] = {
+  Stand = "Hierophant Green",
+  Farming = false
+ },
+ 
+ [15] = {
+  Stand = "Magician's Red",
+  Farming = false
+ },
+ 
+ [16] = {
+  Stand = "White Album",
+  Farming = false
+ },
+ 
+ [17] = {
+  Stand = "Hermit Purple",
+  Farming = false
+ },
+
+ [18] = {
+  Stand = "Mr. President",
+  Farming = false
+ },
+
+ [19] = {
+  Stand = "Beach Boy",
+  Farming = false
+ }
 }
 
 --[[
@@ -295,7 +384,14 @@ local function StandWarnSF(StandNAME, Pity)
 end
 
 local function StandWarnN(StandNAME, Pity)
-
+    
+   local Farming = {}
+   
+   for i = 1,#Stands do
+       if Stands[i].Farming == (true) then
+          table.insert(Farming, YNTCN(Stands[i].Stand))
+       end
+   end
    
    if Pity == (0) and SFKS then 
       game.StarterGui:SetCore("SendNotification", {
@@ -304,7 +400,7 @@ local function StandWarnN(StandNAME, Pity)
         Duration = 15
       })
       SFN = false
-   elseif STF == (StandNAME) then
+   elseif table.find(Farming, StandNAME) then
       game.StarterGui:SetCore("SendNotification", {
         Title = "Stand Rolled;",
         Text = ("You Rolled your stand! : " .. StandNAME),
@@ -474,11 +570,15 @@ FluxTabStandFarm:Toggle("Keep Shinys", "Keep's shinys while using the normal aut
     end
 end)
 
-FluxTabStandFarm:Dropdown("Stands", Stands, function(Picked)
-    STF = CNTYN(Picked)
-    
-    Flux:Notification(("Started farming: " .. Picked), "Proceed")
-end)
+FluxTabStandFarm:Line()
+FluxTabStandFarm:Label("Stands:")
+FluxTabStandFarm:Line()
+
+for i = 1,#Stands do
+   FluxTabStandFarm:Toggle(Stands[i].Stand, ("AutoFarm: " .. Stands[i].Stand), false, function(Bool)
+      Stands[i].Farming = Bool
+   end)
+end
 
 --[[
 OTHER FUNCTIONS
