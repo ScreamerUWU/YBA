@@ -707,7 +707,9 @@ local function CountItems(Backpack)
 end
 
 FluxTabCount:Button("Count", "Updates the current amount of items!", function()
-    CountItems(game:GetService("Players").LocalPlayer.Backpack)
+    local Player = game:GetService("Players").LocalPlayer
+    
+    CountItems(Player.Backpack)
 end)
 
 FluxTabCount:Toggle("Auto Update", "Updates the current amount of items automatically!", false, function(Bool)
