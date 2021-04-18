@@ -733,6 +733,22 @@ game:GetService("Players").LocalPlayer.Idled:Connect(function()
     end
 end)
 
+local function UpdateItems(BP)
+    
+   BP.ChildAdded:Connect(function(...)
+       if ACI then
+          CountItems(game:GetService("Players").LocalPlayer.Backpack)
+       end
+   end)
+
+   BP.ChildRemoved:Connect(function(...)
+       if ACI then
+          CountItems(game:GetService("Players").LocalPlayer.Backpack)
+       end
+   end)
+   
+end
+
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character)
     wait(.1)
     
@@ -745,16 +761,10 @@ game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character
     if not SF and SFN then
        NormalCheck()
     end
-end)
-
-game:GetService("Players").LocalPlayer.Backpack.ChildAdded:Connect(function(...)
+    
     if ACI then
-       CountItems(game:GetService("Players").LocalPlayer.Backpack)
+       UpdateItems(game:GetService("Players").LocalPlayer:WaitForChild("Backpack"))
     end
 end)
 
-game:GetService("Players").LocalPlayer.Backpack.ChildRemoved:Connect(function(...)
-    if ACI then
-       CountItems(game:GetService("Players").LocalPlayer.Backpack)
-    end
-end)
+UpdateItems(game:GetService("Players").LocalPlayer:WaitForChild("Backpack"))
