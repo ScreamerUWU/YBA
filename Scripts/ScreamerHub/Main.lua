@@ -13,6 +13,7 @@ local DropAmount = ""
 local DropEnabled = false
 
 local APEnabled = false
+local ACI = false
 
 local AFK = true
 
@@ -503,7 +504,7 @@ end
 UI LOADING
 ]]
 
-local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/fluxlib.txt"))()
+local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/ScreamerUWU/LIB/main/Flux_Edited.lua"))()
 
 --[[
 UI WINDOWS
@@ -518,6 +519,7 @@ UI TABS
 local FluxTabAutoDrop = FluxWindow:Tab("Auto Drop", "http://www.roblox.com/asset/?id=6031075939")
 local FluxTabAutoSell = FluxWindow:Tab("Auto Sell", "http://www.roblox.com/asset/?id=6031086173")
 local FluxTabStandFarm = FluxWindow:Tab("Stand Farm", "http://www.roblox.com/asset/?id=6031086183")
+local FluxTabCount = FluxWindow:Tab("Item Counter", "http://www.roblox.com/asset/?id=6031289444")
 local FluxTabMISC = FluxWindow:Tab("Misc", "http://www.roblox.com/asset/?id=6031086170")
 
 --[[
@@ -657,6 +659,61 @@ FluxTabMISC:Toggle("Auto Arcade", "Automatically grabs items from up to 15 - 25 
 end)
 
 --[[
+ITEM COUNTER FUNCTIONS
+]]
+
+                    FluxTabCount:Line()
+local RokaCounter = FluxTabCount:Label("Rokakakas: ")
+      RokaCounter.TextColor3 = Color3.fromRGB(255, 0, 0)
+                    FluxTabCount:Line()
+local ArrwCounter = FluxTabCount:Label("Mysterious Arrows: ")
+      ArrwCounter.TextColor3 = Color3.fromRGB(155, 135, 12)
+                    FluxTabCount:Line()
+local PureCounter = FluxTabCount:Label("Pure Rokakakas: ")
+      PureCounter.TextColor3 = Color3.fromRGB(255, 204, 203)
+                    FluxTabCount:Line()
+local LuckCounter = FluxTabCount:Label("Lucky Arrows: ")
+      LuckCounter.TextColor3 = Color3.fromRGB(255, 255, 0)
+                    FluxTabCount:Line()
+
+local function CountItems(Backpack)
+    
+    local Rokas = 0
+    local Arrows = 0
+    local Pures = 0
+    local LArrows = 0
+    
+    for I, V in pairs(Backpack:GetDescendants()) do
+       if V.Name ~= ("Left Arm of The Saint's Corpse") and V.Name ~= ("Rib Cage of The Saint's Corpse") then
+          if V.Name == ("Rokakaka") then
+             Rokas = Rokas + 1
+          end
+          if V.Name == ("Mysterious Arrow") then
+             Arrows = Arrows + 1
+          end
+          if V.Name == ("Pure Rokakaka") then
+             Pures = Pures + 1
+          end
+          if V.Name == ("Lucky Arrow") then
+             LArrows = LArrows + 1
+          end
+       end
+    end
+    
+    RokaCounter.Text = ("Rokakakas: " .. tostring(Rokas))
+    ArrwCounter.Text = ("Mysterious Arrows: " .. tostring(Arrows))
+    PureCounter.Text = ("Pure Rokakakas: " .. tostring(Pures))
+    LuckCounter.Text = ("Lucky Arrows: " .. tostring(LArrows))
+end
+
+FluxTabCount:Button("Count", "Updates the current amount of items!", function()
+    CountItems(game:GetService("Players").LocalPlayer.Backpack)
+end)
+
+FluxTabCount:Toggle("Auto Update", "Updates the current amount of items automatically!", false, function(Bool)
+    ACI = Bool
+end)
+--[[
 OTHER FUNCTIONS
 ]]
 
@@ -687,5 +744,17 @@ game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character
     
     if not SF and SFN then
        NormalCheck()
+    end
+end)
+
+game:GetService("Players").LocalPlayer.Backpack.ChildAdded:Connect(function(...)
+    if ACI then
+       CountItems(game:GetService("Players").LocalPlayer.Backpack)
+    end
+end)
+
+game:GetService("Players").LocalPlayer.Backpack.ChildRemoved:Connect(function(...)
+    if ACI then
+       CountItems(game:GetService("Players").LocalPlayer.Backpack)
     end
 end)
