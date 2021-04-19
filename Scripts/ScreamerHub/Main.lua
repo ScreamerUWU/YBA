@@ -683,20 +683,18 @@ local function CountItems(Backpack)
     local Pures = 0
     local LArrows = 0
     
-    for I, V in pairs(Backpack:GetDescendants()) do
-       if V.Name ~= ("Left Arm of The Saint's Corpse") and V.Name ~= ("Rib Cage of The Saint's Corpse") then
-          if V.Name == ("Rokakaka") then
-             Rokas = Rokas + 1
-          end
-          if V.Name == ("Mysterious Arrow") then
-             Arrows = Arrows + 1
-          end
-          if V.Name == ("Pure Rokakaka") then
-             Pures = Pures + 1
-          end
-          if V.Name == ("Lucky Arrow") then
-             LArrows = LArrows + 1
-          end
+    for I, V in pairs(Backpack:GetChildren()) do
+       if V.Name == ("Rokakaka") then
+          Rokas = Rokas + 1
+       end
+       if V.Name == ("Mysterious Arrow") then
+          Arrows = Arrows + 1
+       end
+       if V.Name == ("Pure Rokakaka") then
+          Pures = Pures + 1
+       end
+       if V.Name == ("Lucky Arrow") then
+          LArrows = LArrows + 1
        end
     end
     
