@@ -130,6 +130,11 @@ local Stands = {
  [19] = {
   Stand = "Beach Boy",
   Farming = false
+ },
+    
+ [20] = {
+  Stand = "Anubis",
+  Farming = false
  }
 }
 
@@ -157,6 +162,7 @@ local function YNTCN(Name)
     if Name == ("Violet Vine") then return ("Hermit Purple") end
     if Name == ("Ms. Vice President") then reurn ("Mr. President") end
     if Name == ("Ocean Boy") then return ("Beach Boy") end
+    if Name == ("Anubiz") then return ("Anubis") end
 end
 
 local function CNTYN(StandNAME)
@@ -179,6 +185,7 @@ local function CNTYN(StandNAME)
    if StandNAME == ("Hermit Purple") then return ("Violet Vine") end
    if StandNAME == ("Mr. President") then return ("Ms. Vice President") end
    if StandNAME == ("Beach Boy") then return ("Ocean Boy") end
+   if Name == ("Anubis") then return ("Anubiz") end
 end
 
 local function UseArrow()
