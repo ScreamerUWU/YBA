@@ -185,7 +185,7 @@ local function CNTYN(StandNAME)
    if StandNAME == ("Hermit Purple") then return ("Violet Vine") end
    if StandNAME == ("Mr. President") then return ("Ms. Vice President") end
    if StandNAME == ("Beach Boy") then return ("Ocean Boy") end
-   if Name == ("Anubis") then return ("Anubiz") end
+   if StandNAME == ("Anubis") then return ("Anubiz") end
 end
 
 local function UseArrow()
