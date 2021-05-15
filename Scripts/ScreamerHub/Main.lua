@@ -4,7 +4,7 @@ VARIABLES
 
 local VirtualUser = game:GetService("VirtualUser")
 
-local ItemDropWait = (1.1)
+local ItemDropWait = (1.5)
 
 local SellAmount = ""
 local SellEnabled = false
@@ -25,9 +25,13 @@ local SFN = false
 local STF = "The Universe"
 local SFKS = false
 
+local StandLogging = false
+
 --[[
 TABLES
 ]]
+
+local StandSession = {}
 
 local Items = {
     "Rokakaka", "Mysterious Arrow", "Pure Rokakaka", "DEO's Diary",
@@ -141,6 +145,37 @@ local Stands = {
 --[[
 FUNCTIONS
 ]]
+
+local function StandLOG(Name, Wanted)
+   StandSession[#StandSession + 1] = {
+    StandRolled = Name,
+    W = Wanted
+   }
+end
+
+local function StandSave()
+    
+   local Temp = {}
+   
+   
+   for i = 1,#StandSession do
+      if StandSession[i].StandRolled then
+         local String = (StandSession[i].StandRolled .. " [ " .. tostring(StandSession[i].W) .. " ]\n")
+         
+         table.insert(Temp, String)
+      end
+   end
+   
+   local Concat = table.concat(Temp, "")
+   
+   for i = 1,500 do
+      if not isfile("Standlog_" .. tostring(i) .. ".txt") then
+         writefile("Standlog_" .. tostring(i) .. ".txt", Concat)
+         return
+      end
+   end
+   
+end
 
 local function YNTCN(Name)
     if Name == ("White Poison") then return ("White Snake") end
@@ -400,8 +435,16 @@ local function StandWarnSF(StandNAME, Pity)
         Text = ("You Rolled a SHINY: " .. StandNAME),
         Duration = 15
       })
-   else
+      
+        if StandLogging then
+           StandLOG(("Shiny: " .. YNTCN(StandNAME)), true)
+        end
+    else
       UseRoka()
+      
+      if StandLogging then
+         StandLOG(YNTCN(StandNAME), false)
+      end
    end
     
 end
@@ -416,14 +459,28 @@ local function StandWarnN(StandNAME, Pity)
        end
    end
    
+   if not table.find(Farming, StandNAME) and StandLogging then
+      StandLOG(YNTCN(StandNAME), false)
+   end
+   
    if Pity == (0) and SFKS then 
       game.StarterGui:SetCore("SendNotification", {
         Title = "Shiny Rolled;",
         Text = ("You Rolled a SHINY: " .. StandNAME),
         Duration = 15
       })
+      
+      if StandLogging then
+         StandLOG(("Shiny: " .. YNTCN(StandNAME)), true)
+      end
+      
       SFN = false
    elseif table.find(Farming, StandNAME) then
+       
+      if StandLogging then
+        StandLOG(YNTCN(StandNAME), true) 
+      end
+      
       game.StarterGui:SetCore("SendNotification", {
         Title = "Stand Rolled;",
         Text = ("You Rolled your stand! : " .. StandNAME),
@@ -611,7 +668,11 @@ FluxTabStandFarm:Toggle("Auto Farm", "Keep's using arrows until you get the stan
     end
 end)
 
-FluxTabStandFarm:Toggle("Keep Shinys", "Keep's shinys while using the normal autofarm.", false, function(Bool)
+FluxTabStandFarm:Line()
+FluxTabStandFarm:Label("AutoFarm Settings:")
+FluxTabStandFarm:Line()
+
+FluxTabStandFarm:Toggle("Keep Shiny Stands", "Keep's shinys while using the normal autofarm.", false, function(Bool)
     SFKS = Bool
     
     if Bool then
@@ -619,6 +680,30 @@ FluxTabStandFarm:Toggle("Keep Shinys", "Keep's shinys while using the normal aut
     elseif not Bool then
        Flux:Notification("Keep Shinys Disabled", "Proceed")
     end
+end)
+
+FluxTabStandFarm:Toggle("Stand Logging", "Stands get logged.", false, function(Bool)
+    StandLogging = Bool
+    
+    if Bool then
+       Flux:Notification("Stand Logging Enabled", "Proceed")
+    elseif not Bool then
+       Flux:Notification("Stand Logging Disabled", "Proceed")
+    end
+end)
+
+FluxTabStandFarm:Button("Save LOG File", "Saves your log file to the workspace folder of rolled stands!", function()
+    
+    local Success, Err = pcall(function()
+        writefile("TestFile.lua", "Synapse or external exploit!")
+    end)
+    
+    if not Success then
+       FluxTabStandFarm:Notification("Synapse ONLY.", "OK!")
+    end
+    
+    StandSave()
+    FluxTabStandFarm:Notification("Check your synapse workspace folder!", "OK!")
 end)
 
 FluxTabStandFarm:Line()
