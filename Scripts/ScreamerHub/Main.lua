@@ -4,7 +4,7 @@ VARIABLES
 
 local VirtualUser = game:GetService("VirtualUser")
 
-local ItemDropWait = (1.5)
+local ItemDropWait = (1.2)
 
 local SellAmount = ""
 local SellEnabled = false
