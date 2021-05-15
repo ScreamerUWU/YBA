@@ -1,3 +1,33 @@
+--[[ SETTINGS FUNCTIONS ]]--
+
+local function Settings()
+   local Success, Err = pcall(function()
+       
+       if isfile("ScreamerSettings.JSON") then
+          print("Screamer Settings ( true )")
+       elseif not isfile("ScreamerSettings.JSON") then
+          writefile("ScreamerSettings.JSON", game:GetService("HttpService"):JSONEncode({WebHook = "", DevID = ""}))
+       end
+   
+   end)
+   
+   if not Success then
+      print("Client does not support isfile or writefile:", tostring(Err))
+   end
+end
+
+local function GetSettings()
+   if isfile("ScreamerSettings.JSON") then
+      local File = readfile("ScreamerSettings.JSON")
+      
+      return game:GetService("HttpService"):JSONDecode(File)
+   end
+end
+
+--[[ SETTINGS CHECK ]]--
+
+Settings()
+
 --[[
 VARIABLES
 ]]
