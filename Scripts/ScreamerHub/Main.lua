@@ -160,7 +160,7 @@ local function StandSave()
    
    for i = 1,#StandSession do
       if StandSession[i].StandRolled then
-         local String = (StandSession[i].StandRolled .. " [ " .. tostring(StandSession[i].W) .. " ]\n")
+         local String = (StandSession[i].StandRolled .. " [ Kept: " .. tostring(StandSession[i].W) .. " ]\n")
          
          table.insert(Temp, String)
       end
