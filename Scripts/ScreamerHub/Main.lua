@@ -160,7 +160,7 @@ local function StandSave()
    
    for i = 1,#StandSession do
       if StandSession[i].StandRolled then
-         local String = (StandSession[i].StandRolled .. " [ Kept: " .. tostring(StandSession[i].W) .. " ]\n")
+         local String = (StandSession[i].StandRolled .. " [ " .. tostring(StandSession[i].W) .. " ]\n")
          
          table.insert(Temp, String)
       end
@@ -445,6 +445,7 @@ local function StandWarnSF(StandNAME, Pity)
       if StandLogging then
          StandLOG(YNTCN(StandNAME), false)
       end
+      
    end
     
 end
@@ -457,10 +458,6 @@ local function StandWarnN(StandNAME, Pity)
        if Stands[i].Farming == (true) then
           table.insert(Farming, CNTYN(Stands[i].Stand))
        end
-   end
-   
-   if not table.find(Farming, StandNAME) and StandLogging then
-      StandLOG(YNTCN(StandNAME), false)
    end
    
    if Pity == (0) and SFKS then 
@@ -489,6 +486,8 @@ local function StandWarnN(StandNAME, Pity)
       SFN = false
    else
       UseRoka()
+      
+      if StandLogging then StandLOG(YNTCN(StandNAME), false) end
    end
     
 end
