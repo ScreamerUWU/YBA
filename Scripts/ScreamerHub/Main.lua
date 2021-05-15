@@ -195,7 +195,7 @@ local function YNTCN(Name)
     if Name == ("Magician's Ember") then return ("Magician's Red") end
     if Name == ("Ice Album") then return ("White Album") end
     if Name == ("Violet Vine") then return ("Hermit Purple") end
-    if Name == ("Ms. Vice President") then reurn ("Mr. President") end
+    if Name == ("Ms. Vice President") then return ("Mr. President") end
     if Name == ("Ocean Boy") then return ("Beach Boy") end
     if Name == ("Anubiz") then return ("Anubis") end
 end
